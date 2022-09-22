@@ -19,22 +19,25 @@ const arrayPizzas = [
 let pizzas = JSON.parse(localStorage.getItem('arrayPizzas')) || [];
 
 const saveLocalStorage = () => {
-    localStorage.setItem('arrayPizzas', JSON.stringify(pizzas))
+    localStorage.setItem('pizzas', JSON.stringify(pizzas))
 };
 
-const saveData = () => {
+
+const saveData = (miPizza) => {
     pizzas = [
         ...pizzas,
         {
             id: pizzas.length++,
+            nombre: miPizza.nombre,
+            precio: miPizza.precio,
 
         }
     ]
 }
 
-const renderPizza = (pizza) => {
+const renderPizza = pizza => {
     const {nombre, precio} = pizza;
-    `
+    return `
         <div class="card">
         <div class="titulos">
         <h2> Pizza: ${nombre} </h2>
@@ -55,11 +58,11 @@ const checkInput = () => {
     let valid = false;
     const valueInput = inputNumber.value.trim();
     if (valueInput == 0) {
-        showError('Ingresa un valor mayor que 0 y menor a 9');
+        showError(inputNumber, 'Ingresa un valor mayor que 0 y menor a 9');
     } else if (isEmpty(valueInput)){
-        showError('El valor ingresado no es valido')
+        showError(inputNumber, 'El valor ingresado no es valido')
     } else {
-        clearError();
+        clearError(inputNumber);
         valid = true;
     }
     return valid
@@ -67,13 +70,17 @@ const checkInput = () => {
 
 const isEmpty = (value) => value === !value.length;
 
-const showError = (message) => {
-    const error = document.getElementById('msg');
+const showError = (input, message) => {
+    const formField = input.parentElement;
+    formField.classList.add("error")
+    const error = formField.querySelector("small");
     error.textContent = message;
 }
 
-const clearError = () => {
-    const error = document.getElementById('msg');
+const clearError = (input) => {
+    const formField = input.parentElement;
+    formField.classList.add("error")
+    const error = formField.querySelector("small");
     error.textContent = "";
 }
 
@@ -94,12 +101,12 @@ const removeAll = () => {
 
 const agregarPizza = e => {
     e.preventDefault();
-    saveData();
-    saveLocalStorage();
     let input = parseInt(inputNumber.value);
-    let miPizza = arrayPizzas.filter(pizza => pizza.id === input);
+    let miPizza = arrayPizzas.find(pizza => pizza.id === input);
     console.log(miPizza);
     renderPizzas(miPizza);
+    saveData();
+    saveLocalStorage();
 }
 
 
