@@ -41,12 +41,14 @@ function mostrar(e) {
     } else if (valueInput >= 9 || valueInput <= 0) {
         inputNumber.classList.add("error")
         showError('Ingresa un número valido')
-    } else {
+    } else if (isEmpty(valueInput)) {
         inputNumber.classList.add("error")
         showError('Ingresa un número')
     };
     inputNumber.value = "";
 }
+
+const isEmpty = (value) => value === !value.length;
 
 const showError = (message) => {
     const msg = document.querySelector('small');
