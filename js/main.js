@@ -5,7 +5,7 @@ const showPizza = document.getElementById('pizza');
 const arrayPizzas = [
     {id: 1, nombre: 'Napolitana', imagen: "./img/pizza-napolitana.jpg", ingredientes: ['salsa de tomate', 'muzzarella', 'rodajas de tomate', 'ajo', 'perejil', 'aceitunas'], precio: '$1500'},
     {id: 2, nombre: 'Fugazzeta', imagen: "./img/pizza-fugazza.jpg", ingredientes: ['muzzarella', 'cebolla', 'aceitunas'], precio: '$1050'},
-    {id: 3, nombre: '4 Quesos', imagen: "./img/pizza-4-quesos.jpg", ingredientes: ['salsa de tomate', 'muzarella', 'provolone', 'parmesano', 'roquefort', 'aceitunas'], precio: '$1500'},
+    {id: 3, nombre: '4 Quesos', imagen: "./img/pizza-4-quesos.jpg", ingredientes: ['muzarella', 'provolone', 'parmesano', 'roquefort', 'aceitunas'], precio: '$1500'},
     {id: 4, nombre: 'Roquefort', imagen: "./img/pizza-roquefort.png", ingredientes: ['salsa de tomate', 'muzzarella', 'roquefort', 'aceitunas'], precio: '$1350'},
     {id: 5, nombre: 'Vegetariana', imagen: "./img/pizza-vegetariana.jpg", ingredientes: ['muzarrella', 'salsa blanca', 'acelga', 'oregano', 'aceitunas'], precio: '$1050'},
     {id: 6, nombre: 'Especial', imagen: "./img/pizza-especial.jpg", ingredientes: ['salsa de tomate', 'muzzarella', 'jamon', 'rodajas de tomate', 'provenzal', 'huevo', 'morrones'], precio: '$1150'},
