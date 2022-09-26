@@ -19,12 +19,12 @@ const saveLocalStorage = pizzas => localStorage.setItem("pizzas", JSON.stringify
 const renderPizza = pizza => { 
     if (pizza.length !== 0) { 
         showPizza.innerHTML = 
-    `<h2>Pizza ${pizza.nombre}:</h2>
+    `<div class="card"><h2>Pizza ${pizza.nombre}:</h2>
     <div class="pizza-img">
     <img src="${pizza.imagen}" alt="pizza">
     </div> 
     <p>Ingredientes: ${pizza.ingredientes}.</p>
-    <h4> Precio: ${pizza.precio}</h4>`;
+    <h4> Precio: ${pizza.precio}</h4></div>`;
     };
 }
 
