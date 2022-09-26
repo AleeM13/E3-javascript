@@ -101,9 +101,8 @@ small {
     #pizza {
         width: 92%;
     }
-
     .pizza-img {
         width: 300px;
-        height: 300px;
+        height: 250px;
     }
 }
