@@ -1,120 +1,64 @@
 const form = document.getElementById('form');
-const inputNumber = document.getElementById('num');
+const inputNumber = document.getElementById("num");
 const showPizza = document.getElementById('pizza');
-const deleteAll = document.getElementById('borrar');
-const deleteUno = document.getElementById('borrarUno')
-const msg = document.getElementById('msg');
 
 const arrayPizzas = [
-    {id: 1, nombre: 'Napolitana', ingredientes: ['salsa de tomate', 'muzzarella', 'rodajas de tomate', 'ajo', 'perejil', 'aceitunas'], precio: '1500'},
-    {id: 2, nombre: 'Fugazzeta', ingredientes: ['muzzarella', 'cebolla', 'aceitunas'], precio: '1050'},
-    {id: 3, nombre: '4 Quesos', ingredientes: ['salsa de tomate', 'muzarella', 'provolone', 'parmesano', 'roquefort', 'aceitunas'], precio: '1500'},
-    {id: 4, nombre: 'Roquefort', ingredientes: ['salsa de tomate', 'muzzarella', 'roquefort', 'aceitunas'], precio: '1350'},
-    {id: 5, nombre: 'Vegetariana', ingredientes: ['muzarrella', 'salsa blanca', 'acelga', 'oregano', 'aceitunas'], precio: '1050'},
-    {id: 6, nombre: 'Especial', ingredientes: ['salsa de tomate', 'muzzarella', 'jamon', 'rodajas de tomate', 'provenzal', 'huevo', 'morrones'], precio: '1150'},
-    {id: 7, nombre: 'Muzzarella', ingredientes: ['salsa de tomate', 'muzzarella', 'rodajas de tomate', 'oregano', 'aceitunas'], precio: '950'},
-    {id: 8, nombre: 'Calabresa', ingredientes: ['salsa de tomate', 'muzzarella', 'longaniza', 'aji molido', 'aceitunas'], precio: '1200'}
+    {id: 1, nombre: 'Napolitana', imagen: "./img/pizza-napolitana.jpg", ingredientes: ['salsa de tomate', 'muzzarella', 'rodajas de tomate', 'ajo', 'perejil', 'aceitunas'], precio: '$1500'},
+    {id: 2, nombre: 'Fugazzeta', imagen: "./img/pizza-fugazza.jpg", ingredientes: ['muzzarella', 'cebolla', 'aceitunas'], precio: '$1050'},
+    {id: 3, nombre: '4 Quesos', imagen: "./img/pizza-4-quesos.jpg", ingredientes: ['salsa de tomate', 'muzarella', 'provolone', 'parmesano', 'roquefort', 'aceitunas'], precio: '$1500'},
+    {id: 4, nombre: 'Roquefort', imagen: "./img/pizza-roquefort.png", ingredientes: ['salsa de tomate', 'muzzarella', 'roquefort', 'aceitunas'], precio: '$1350'},
+    {id: 5, nombre: 'Vegetariana', imagen: "./img/pizza-vegetariana.jpg", ingredientes: ['muzarrella', 'salsa blanca', 'acelga', 'oregano', 'aceitunas'], precio: '$1050'},
+    {id: 6, nombre: 'Especial', imagen: "./img/pizza-especial.jpg", ingredientes: ['salsa de tomate', 'muzzarella', 'jamon', 'rodajas de tomate', 'provenzal', 'huevo', 'morrones'], precio: '$1150'},
+    {id: 7, nombre: 'Muzzarella', imagen: "./img/pizza-muzzarella.jpg", ingredientes: ['salsa de tomate', 'muzzarella', 'rodajas de tomate', 'oregano', 'aceitunas'], precio: '$950'},
+    {id: 8, nombre: 'Calabresa', imagen: "./img/pizza-calabresa.jpg", ingredientes: ['salsa de tomate', 'muzzarella', 'longaniza', 'aji molido', 'aceitunas'], precio: '$1200'}
 ];
 
-let pizzas = JSON.parse(localStorage.getItem('arrayPizzas')) || [];
+let miPizza = JSON.parse(localStorage.getItem("pizzas")) || [];
+const saveLocalStorage = pizzas => localStorage.setItem("pizzas", JSON.stringify(pizzas));
 
-const saveLocalStorage = () => {
-    localStorage.setItem('pizzas', JSON.stringify(pizzas))
-};
-
-
-const saveData = (miPizza) => {
-    pizzas = [
-        ...pizzas,
-        {
-            id: pizzas.length++,
-            nombre: miPizza.nombre,
-            precio: miPizza.precio,
-
-        }
-    ]
+const renderPizza = pizza => { 
+    if (pizza.length !== 0) { 
+        showPizza.innerHTML = 
+    `<h2>Pizza ${pizza.nombre}:</h2>
+    <div class="pizza-img">
+    <img src="${pizza.imagen}" alt="pizza">
+    </div> 
+    <p>Ingredientes: ${pizza.ingredientes}.</p>
+    <h4> Precio: ${pizza.precio}</h4>`;
+    };
 }
 
-const renderPizza = pizza => {
-    const {nombre, precio} = pizza;
-    return `
-        <div class="card">
-        <div class="titulos">
-        <h2> Pizza: ${nombre} </h2>
-        <h4> Precio: ${precio} </h4>
-        </div>
-        <div class="btn_container">
-        <div class="btn"><img src="./img/borrar.png" alt="botón de borrar" id="borrarUno"></div>
-        </div>
-        </div>   
-    `
-}
 
-const renderPizzas = () => {
-    showPizza.innerHTML = pizzas.map((pizza) => renderPizza(pizza)).join('');
-}
-
-const checkInput = () => {
-    let valid = false;
+function mostrar(e) {
+    e.preventDefault()
     const valueInput = inputNumber.value.trim();
-    if (valueInput == 0) {
-        showError(inputNumber, 'Ingresa un valor mayor que 0 y menor a 9');
-    } else if (isEmpty(valueInput)){
-        showError(inputNumber, 'El valor ingresado no es valido')
+    if (arrayPizzas.some(item => item.id == valueInput)) {
+        let pizza = arrayPizzas.find(item => item.id == valueInput);
+        renderPizza(pizza);
+        saveLocalStorage(pizza);
+        inputNumber.classList.remove("error")
+        clearError();
+    } else if (valueInput >= 9 || valueInput <= 0) {
+        inputNumber.classList.add("error")
+        showError('Ingresa un número valido')
     } else {
-        clearError(inputNumber);
-        valid = true;
-    }
-    return valid
+        inputNumber.classList.add("error")
+        showError('Ingresa un número')
+    };
+    inputNumber.value = "";
 }
 
-const isEmpty = (value) => value === !value.length;
-
-const showError = (input, message) => {
-    const formField = input.parentElement;
-    formField.classList.add("error")
-    const error = formField.querySelector("small");
-    error.textContent = message;
+const showError = (message) => {
+    const msg = document.querySelector('small');
+    msg.textContent = message;
 }
 
-const clearError = (input) => {
-    const formField = input.parentElement;
-    formField.classList.add("error")
-    const error = formField.querySelector("small");
-    error.textContent = "";
+const clearError = () => {
+    const msg = document.querySelector('small');
+    msg.textContent = "";
 }
 
-const hideDeleteAll = pizzas => {
-    if (!pizzas.length) {
-        deleteAll.classList.add('hidden');
-        return
-    }
-    deleteAll.classList.remove('hidden');
-}
-
-const removeAll = () => {
-    pizzas = [];
-    renderPizzas(pizzas);
-    saveLocalStorage(pizzas);
-    hideDeleteAll(pizzas);
-}
-
-const agregarPizza = e => {
-    e.preventDefault();
-    let input = parseInt(inputNumber.value);
-    let miPizza = arrayPizzas.find(pizza => pizza.id === input);
-    console.log(miPizza);
-    renderPizzas(miPizza);
-    saveData();
-    saveLocalStorage();
-}
+form.addEventListener("submit", mostrar);
 
 
-const init = () => {
-    renderPizzas(pizzas);
-    form.addEventListener('submit', agregarPizza);
-    deleteAll.addEventListener('click', removeAll);
-    hideDeleteAll(pizzas);
-};
-
-init();
+window.onload = renderPizza(miPizza);
