@@ -96,3 +96,14 @@ small {
 .error {
     border: 1px solid red !important;
 }
+
+@media (max-width: 800px) {
+    #pizza {
+        width: 92%;
+    }
+
+    .pizza-img {
+        width: 300px;
+        height: 300px;
+    }
+}
